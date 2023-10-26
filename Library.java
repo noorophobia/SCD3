@@ -3,6 +3,7 @@
 package com.mycompany.assignment3;
 
   
+import gui.RollOverTable;
 import gui.JButtonRenderer_Read;
  import java.awt.BorderLayout;
 import java.awt.Color;
@@ -12,8 +13,10 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
  
 import java.awt.Font;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
  import java.io.IOException;
@@ -78,30 +81,59 @@ JFrame frame=new JFrame();
                    for (List<String> bookInfo : books) {
                          model.addRow(bookInfo.toArray());
                          }
-                   
                     
+                      RollOverTable j = new RollOverTable(model );
+
          
          //In a JTable, each column can contain data of a different type. For example, one column might contain numbers, another column might contain text, and yet another column might contain dates. To make the table work correctly and display data properly,
          //the table model needs to know the data type (class) of each column.
             DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
             centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-                      JTable j = new JTable(model);
+                     // JTable j = new JTable(model);
                           j.setDefaultRenderer(Object.class, centerRenderer);
            // Class<?>[] columnClass = {Integer.class,String.class,String.class, String.class};
 
    // j.setDefaultRenderer(Object.class, new NewClass());
     
-    
-
-        // ... Rest of your existing code ...
-
+     
     JButtonRenderer_Read compCellDelete = new JButtonRenderer_Read(frame );
 
 j.getColumnModel().getColumn(4).setCellEditor(compCellDelete);
 j.getColumnModel().getColumn(4).setCellRenderer(compCellDelete);
 
-   
-     
+     // CellHighlighterRenderer n= new CellHighlighterRenderer();
+      //                       j.setDefaultRenderer(Object.class, n);
+  DefaultTableCellRenderer cellRenderer = new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                if (isSelected) {
+                    c.setBackground(table.getSelectionBackground());
+                } else {
+                    c.setBackground(Color.WHITE);
+                }
+                return c;
+            }
+        };
+        j.setDefaultRenderer(Object.class, cellRenderer);
+
+        j.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                Point point = e.getPoint();
+                int column = j.columnAtPoint(point);
+                int row = j.rowAtPoint(point);
+                if (column >= 0 && row >= 0) {
+                    j.setSelectionBackground(Color.lightGray);
+                    j.setDefaultRenderer(Object.class, cellRenderer); // Reset all cells to the default background
+                    j.prepareRenderer(cellRenderer, row, column);
+                    j.repaint();
+                }
+            }
+        });
+
+        
+  
     frame.setLayout(new FlowLayout());
      //  Dimension d=new Dimension(800,800);
      //j.setSize(d);
