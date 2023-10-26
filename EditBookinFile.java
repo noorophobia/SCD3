@@ -16,12 +16,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 public class EditBookinFile {
 	static void EditAuthor(String author, Book book) throws IOException {
-	    String lineToEdit = "1," + book.getTitle() + "," + book.getAuthor() + "," + book.getYear() + "," + book.getPopularityCount() + "," + book.getCost() ;
+	    String lineToEdit =  book.getTitle() + "," + book.getAuthor() + "," + book.getYear() + "," + book.getPopularityCount() + "," + book.getCost() ;
 
 	    StringBuilder modifiedContent = new StringBuilder();
 	    File file = new File("books.txt");
-
-	    if (file.isFile()) {
+ 	    if (file.isFile()) {
 	        BufferedReader reader = new BufferedReader(new FileReader(file));
 	        String line;
 
@@ -45,7 +44,7 @@ public class EditBookinFile {
 	}
 
 	static void EditTitle(String newtitle, Book book) throws IOException {
-	    String lineToEdit = "1," + book.getTitle() + "," + book.getAuthor() + "," + book.getYear() + "," + book.getPopularityCount() + "," + book.getCost() ;
+	    String lineToEdit =  book.getTitle() + "," + book.getAuthor() + "," + book.getYear() + "," + book.getPopularityCount() + "," + book.getCost() ;
 
 	    StringBuilder modifiedContent = new StringBuilder();
 	    File file = new File("books.txt");
@@ -73,7 +72,7 @@ public class EditBookinFile {
 	    }
 	}
 	static void EditYear(int year, Book book) throws IOException {
-	    String lineToEdit = "1," + book.getTitle() + "," + book.getAuthor() + "," + book.getYear() + "," + book.getPopularityCount() + "," + book.getCost() ;
+	    String lineToEdit = book.getTitle() + "," + book.getAuthor() + "," + book.getYear() + "," + book.getPopularityCount() + "," + book.getCost() ;
 	    String newyear= Integer.toString(year);
 	    String oldyear= Integer.toString(book.getYear());
 
@@ -103,7 +102,7 @@ public class EditBookinFile {
 	    }
 	}
 	static void EditCost(double cost, Book book) throws IOException {
-	    String lineToEdit = "1," + book.getTitle() + "," + book.getAuthor() + "," + book.getYear() + "," + book.getPopularityCount() + "," + book.getCost();
+	    String lineToEdit =  book.getTitle() + "," + book.getAuthor() + "," + book.getYear() + "," + book.getPopularityCount() + "," + book.getCost();
 	    String newcost= Integer.toString((int) cost);
 	    String oldcost= Integer.toString((int)book.getCost());
 
@@ -133,7 +132,7 @@ public class EditBookinFile {
 	    }
 	}
 	static void EditPopularityCount(int count, Book book) throws IOException {
-	    String lineToEdit = "1," + book.getTitle() + "," + book.getAuthor() + "," + book.getYear() + "," + book.getPopularityCount() + "," + book.getCost();
+	    String lineToEdit =  book.getTitle() + "," + book.getAuthor() + "," + book.getYear() + "," + book.getPopularityCount() + "," + book.getCost();
 	    
 	    String newcount= Integer.toString(count);
 	    String oldcount= Integer.toString(book.getPopularityCount());
