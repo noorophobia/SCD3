@@ -65,7 +65,7 @@ public class Graph extends  JPanel {
         JLabel label = new JLabel("Popularity Count", SwingConstants.CENTER);
          chartPanel.add(label);
          label.setSize(200, 200);
-label.setAlignmentX(Component.CENTER_ALIGNMENT); // Align the label to the center
+label.setAlignmentX(Component.CENTER_ALIGNMENT);  
 
         JButton button = new JButton("Back");
         
@@ -101,8 +101,7 @@ label.setAlignmentX(Component.CENTER_ALIGNMENT); // Align the label to the cente
         int height = getHeight()-10;
         int maxValue = 0;
 
-        // Find the maximum value in the array
-        for (int value : values) {
+         for (int value : values) {
             if (value > maxValue) {
                 maxValue = value;
             }
@@ -111,8 +110,7 @@ label.setAlignmentX(Component.CENTER_ALIGNMENT); // Align the label to the cente
         int x = initialX;
         int l = values.length;
                 Arrays.sort(values, Comparator.reverseOrder());
-              //  Arrays.sort(values, Comparator.reverseOrder());
-  
+   
               int j1 = 0;
         Integer[] valuesOfAxis = new Integer[l];
         for (int i = 0; i < values.length; i++) {

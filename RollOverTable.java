@@ -33,12 +33,10 @@ import javax.swing.table.TableModel;
     public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
         JComponent c = (JComponent) super.prepareRenderer(renderer, row, column);
         
-        // Reset the cell border to the default
-        c.setBorder(UIManager.getBorder("Table.cellBorder"));
+         c.setBorder(UIManager.getBorder("Table.cellBorder"));
 
         if (row == rollOverRowIndex && column == rollOverColumnIndex) {
-            // Set a red border color for the cell
-            c.setBorder(BorderFactory.createLineBorder(Color.RED));
+             c.setBorder(BorderFactory.createLineBorder(Color.RED));
         }
 
         return c;

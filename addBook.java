@@ -76,7 +76,7 @@ public class addBook extends JFrame {
           model.addRow(row);
                    fileReadWrite.addBook(newBook);
                     JOptionPane.showMessageDialog(null, "Book added successfully to books.txt!");
-                    dispose(); // Close the JFrame after adding the book
+                    dispose();  
                 } catch (NumberFormatException | IOException ex) {
                     JOptionPane.showMessageDialog(null, "Invalid input or error occurred. Please try again.");
                 }

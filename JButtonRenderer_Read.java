@@ -73,7 +73,7 @@ JFrame frame;
            table.revalidate();
 table.repaint();
 if (frame != null) {
-        frame.requestFocus(); // Or transfer focus to another relevant component
+        frame.requestFocus();  
     }
 
             return b;
