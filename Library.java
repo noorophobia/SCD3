@@ -3,8 +3,12 @@
 package com.mycompany.assignment3;
 
   
+import gui.DeleteRow;
+import gui.EditBook;
+import gui.Graph;
 import gui.RollOverTable;
 import gui.JButtonRenderer_Read;
+import gui.addBook;
  import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -23,6 +27,10 @@ import java.awt.event.MouseListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -54,27 +62,39 @@ public class Library   implements ActionListener,MouseListener{
    public void readItems()  throws IOException{
          items=fileReadWrite.readItems();
                   List< List<String>>books=new ArrayList<>();
-                                  
+                    JPanel pane=new JPanel();              
 JFrame frame=new JFrame();
+ String[] names = new String[items.size()];
+  Integer[] popular_count=new Integer[items.size()];
                  for(int i=0 ;i<items.size();i++) {
 			 if (items.get(i) instanceof Book ) {
 		            Book newbook= (Book) items.get(i) ;
                             String title=newbook.getTitle();
+                            names[i]=title;
+                            if(title.length()>7){
+                                String firstSixChars = title.substring(6, title.length());
+
+                                 names[i]=firstSixChars;
+                            }
+                            popular_count[i]=newbook.getPopularityCount();
                             String author=newbook.getAuthor();
                              String ID=Integer.toString(newbook.getID());
                             String Year =Integer.toString(newbook.getYear());
+                                                        String cost =Integer.toString(newbook.getCost());
+
                             List<String>m=new ArrayList<>(); m.add(ID);
                             m.add(title);
                             m.add(author);
                             
                             m.add(Year);
+                            m.add(cost);
                             books.add(m);
                             
  
 		        }}    
        
           DefaultTableModel model=new DefaultTableModel();
-          String[] col = {"ID","Title", "Author", "Year","Read Item"};
+          String[] col = {"ID","Title", "Author", "Year","Cost","Read Item"};
                    for (String columnName : col) {
                         model.addColumn(columnName);
                                        }
@@ -85,24 +105,17 @@ JFrame frame=new JFrame();
                       RollOverTable j = new RollOverTable(model );
 
          
-         //In a JTable, each column can contain data of a different type. For example, one column might contain numbers, another column might contain text, and yet another column might contain dates. To make the table work correctly and display data properly,
-         //the table model needs to know the data type (class) of each column.
-            DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+             DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
             centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-                     // JTable j = new JTable(model);
-                          j.setDefaultRenderer(Object.class, centerRenderer);
-           // Class<?>[] columnClass = {Integer.class,String.class,String.class, String.class};
-
-   // j.setDefaultRenderer(Object.class, new NewClass());
-    
+                     //      j.setDefaultRenderer(Object.class, centerRenderer);
+ 
+     
      
     JButtonRenderer_Read compCellDelete = new JButtonRenderer_Read(frame );
 
-j.getColumnModel().getColumn(4).setCellEditor(compCellDelete);
-j.getColumnModel().getColumn(4).setCellRenderer(compCellDelete);
-
-     // CellHighlighterRenderer n= new CellHighlighterRenderer();
-      //                       j.setDefaultRenderer(Object.class, n);
+j.getColumnModel().getColumn(5).setCellEditor(compCellDelete);
+j.getColumnModel().getColumn(5).setCellRenderer(compCellDelete);
+ 
   DefaultTableCellRenderer cellRenderer = new DefaultTableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
@@ -117,7 +130,7 @@ j.getColumnModel().getColumn(4).setCellRenderer(compCellDelete);
         };
         j.setDefaultRenderer(Object.class, cellRenderer);
 
-        j.addMouseListener(new MouseAdapter() {
+     /*   j.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseMoved(MouseEvent e) {
                 Point point = e.getPoint();
@@ -125,24 +138,123 @@ j.getColumnModel().getColumn(4).setCellRenderer(compCellDelete);
                 int row = j.rowAtPoint(point);
                 if (column >= 0 && row >= 0) {
                     j.setSelectionBackground(Color.lightGray);
-                    j.setDefaultRenderer(Object.class, cellRenderer); // Reset all cells to the default background
+                    j.setDefaultRenderer(Object.class, cellRenderer); 
                     j.prepareRenderer(cellRenderer, row, column);
                     j.repaint();
                 }
             }
-        });
+        });*/
+        JButton button = new JButton("View Popularity count");
 
-        
+ 
+         
+         button.addActionListener(new java.awt.event.ActionListener() {
+                 @Override
+                public void actionPerformed(ActionEvent e) {
+                    frame.setVisible(false);
+                     try {
+                         items=fileReadWrite.readItems();
+                     } catch (IOException ex) {
+                         Logger.getLogger(Library.class.getName()).log(Level.SEVERE, null, ex);
+                     }
+                  List< List<String>>book=new ArrayList<>();
+                 
+ String[] name = new String[items.size()];
+  Integer[] popular_counts=new Integer[items.size()];
+                 for(int i=0 ;i<items.size();i++) {
+			 if (items.get(i) instanceof Book ) {
+		            Book newbook= (Book) items.get(i) ;
+                            String title=newbook.getTitle();
+                            name[i]=title;
+                            if(title.length()>7){
+                                String firstSixChars = title.substring(6, title.length());
+
+                                 name[i]=firstSixChars;
+                            }
+                            popular_counts[i]=newbook.getPopularityCount();}}
+                 
+                      Graph g=new Graph(popular_counts,name,frame);
+                      
+                     
+                           
+                }
+            });
+         JButton button2 = new JButton("Add book");
+
+ 
+         
+         button2.addActionListener(new java.awt.event.ActionListener() {
+                 @Override
+                public void actionPerformed(ActionEvent e) {
+                   // frame.setVisible(false);
+                     addBook g=new addBook(model );
+                      
+                     
+                           
+                }
+            });
+         
+           JButton button4 = new JButton("Delete book");
+
+ 
+         
+         button4.addActionListener(new java.awt.event.ActionListener() {
+                 @Override
+                public void actionPerformed(ActionEvent e) {
+                   // frame.setVisible(false);
+                DeleteRow n=new DeleteRow(j,model);                      
+                     
+                           
+                }
+            });
+    
+
+           JButton button3 = new JButton("Edit book");
+
+ 
+         
+         button3.addActionListener(new java.awt.event.ActionListener() {
+                 @Override
+                public void actionPerformed(ActionEvent e) {
+                   // frame.setVisible(false);
+        EditBook b=new EditBook(j,  model,popular_count);
+                      
+                     
+                           
+                }
+            });
+
+         
+         
+         
+         
+         
+          //   chart.setBackground(Color.decode("#77B686"));
+         pane.setBorder(BorderFactory.createLineBorder(Color.black, 4)); // Set border for the chart
+         pane.setPreferredSize(new Dimension(400, 300));
+
   
-    frame.setLayout(new FlowLayout());
-     //  Dimension d=new Dimension(800,800);
-     //j.setSize(d);
+ pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
+
+ JPanel buttonPanel = new JPanel();
+//buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
+ buttonPanel.setLayout(new   FlowLayout());
+ 
+
+ buttonPanel.add(button);
+buttonPanel.add(button2);
+buttonPanel.add(button3);
+buttonPanel.add(button4);
+
+ 
+        
         
   JScrollPane scrollPane1 = new JScrollPane(j);
- frame.add(scrollPane1);
-  
- 
+ pane.add(scrollPane1);
    
+   frame.add(pane);
+     pane.add(buttonPanel);
+
 frame.setSize(1200,1200);
  
 JTableHeader header = j.getTableHeader();
@@ -155,7 +267,7 @@ JTableHeader header = j.getTableHeader();
   
    }
     		  
-		 
+	 	 
 	   private void openBookDetailsWindow(String bookTitle) {
         JFrame bookDetailsFrame = new JFrame("Book Details");
         // Create and add components to display book information (e.g., JLabels, JTextFields, etc.)

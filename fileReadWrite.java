@@ -106,16 +106,18 @@ public class fileReadWrite {
 
 	    return items;
 	}
-	static void deleteBook(Book book) {
-	    String lineToDelete = "1," + book.getTitle() + "," + book.getAuthor() + "," + book.getYear() + "," + book.getPopularityCount() + "," + book.getCost() ;
+	public static void deleteBook(Book book) {
+	    String lineToDelete =  book.getTitle() + "," + book.getAuthor() + "," + book.getYear() + "," + book.getPopularityCount() + "," + book.getCost() ;
 
-	    System.out.println(lineToDelete);
+	    System.out.println("line del"+lineToDelete);
 
 	    try {
 	        String filePath = "books.txt";
 	        File inputFile = new File(filePath);
 	        File tempFile = new File("tempFile.txt");
-
+                    if(!tempFile.exists()){
+                       tempFile.createNewFile();
+                    }
 	        BufferedReader reader = new BufferedReader(new FileReader(inputFile));
 	        BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile));
 
@@ -134,10 +136,8 @@ public class fileReadWrite {
 	        writer.close();
 	        reader.close();
 
-	        // Delete the original file
-	        if (inputFile.delete()) {
-	            // Rename the temporary file to the original file name
-	            if (tempFile.renameTo(inputFile)) {
+ 	        if (inputFile.delete()) {
+ 	            if (tempFile.renameTo(inputFile)) {
 	                System.out.println("Line deleted successfully.");
 	            } else {
 	                System.out.println("Error renaming the temporary file.");

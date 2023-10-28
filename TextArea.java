@@ -46,7 +46,7 @@ public class TextArea implements WindowListener {
 
           frame = new JFrame("JScrollPane Scrolling Example");
         frame.setSize(400, 300);
-        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); // Handle window closing manually
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);  
 
         JTextArea textArea = new JTextArea(10, 40);
         textArea.setLineWrap(true);
@@ -61,20 +61,18 @@ textArea.setSelectionEnd(0);
 frame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                // Show a confirmation dialog when the window is closing
-                int result = JOptionPane.showConfirmDialog(frame, "Are you sure you want to exit?", "Confirmation", JOptionPane.YES_NO_OPTION);
+                 int result = JOptionPane.showConfirmDialog(frame, "Are you sure you want to exit?", "Confirmation", JOptionPane.YES_NO_OPTION);
                 if (result == JOptionPane.YES_OPTION) {
                     reply=result;
                     System.out.println("inside getBack " + result);
                     frame.setVisible(false);
-                    frame.dispose(); // Close the window if the user confirms
+                    frame.dispose(); 
                     frame1.setVisible(true);
                  }
             }
         });
 
-        // Return the result of the confirmation dialog
-        
+         
  }
     JFrame getframe(){
         return frame;}
